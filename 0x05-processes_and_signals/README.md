@@ -24,5 +24,5 @@ Each script can be run from the terminal as follows:
 ./script_name
 ```
 
-Author
+## Author
 Simangaliso Vilakazi

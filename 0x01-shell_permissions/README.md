@@ -1,4 +1,4 @@
-# Bash Shell Permissions
+# 0x01-Shell_permissions - Bash Shell Permissions
 
 ## Description
 This project is a collection of Bash scripts that perform various tasks related to permissions, ownership, and process management in a Unix-like operating system. Each script is named according to its functionality.

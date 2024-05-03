@@ -1,4 +1,4 @@
-# 0x020-Shell_redirections Bash
+# 0x02-Shell_redirections Bash
 
 ## Description
 This project is a collection of Bash scripts that perform various tasks. Each script is named according to its functionality.

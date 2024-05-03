@@ -40,8 +40,10 @@ This project is a collection of Bash scripts that perform various tasks related 
 
 • `103-Star_Wars`: A script that displays a fun Star Wars reference.
 
-##Usage
+## Usage
+
 Each script can be run from the terminal as follows:
+
 ```
 ./script_name
 ```

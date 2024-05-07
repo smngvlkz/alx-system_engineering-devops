@@ -1,4 +1,4 @@
-# Shell Basics Project
+# 0x00-Shell_basics - Shell Basics Project
 
 This project contains a collection of Bash scripts that perform various tasks. These tasks range from navigating directories to manipulating files and directories.
 

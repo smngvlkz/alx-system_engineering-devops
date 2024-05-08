@@ -18,28 +18,24 @@ This project contains a collection of Bash scripts designed to perform various n
 ### Executing Programs
 - Run the scripts with appropriate permissions, using `sudo` if required.
 
-**0-change_your_home_IP**
+## 0-change_your_home_IP
+
 Configures localhost to resolve to 127.0.0.2 and facebook.com to resolve to 8.8.8.8.
 
 sudo ./0-change_your_home_IP
 
+## 1-show_attached_IPs
 
-**1-show_attached_IPs**
 Displays all active IPv4 IPs on the machine.
 
 ./1-show_attached_IPs
 
 
-**100-port_listening_on_localhost**
+## 100-port_listening_on_localhost
+
 Sets up a listener on port 98 on localhost.
 
 sudo ./100-port_listening_on_localhost
-
-
-## Help
-Any advise for common problems or issues.
-
-command to run if program contains helper info
 
 
 ## Contibuting

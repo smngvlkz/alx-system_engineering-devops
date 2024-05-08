@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Script sets up a listener on port 98 on localhost
+
+if ! commadn -v nc &> /dev/null
+then
+	echo "nc could not be found, please install netcat"
+	exit 1
+fi
+
+nc -lk -p 98 -e /bin/cat

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Display listening sockets with PIDs and program names using ss
+ss -ltnp | grep 'LISTEN' | awk '{print $4, $7}' | while read -r line; do
+	local_addres=$(echo "$line" | cut -d':' -f2)
+	pid_program=$(echo "$line" | cut -d' ' -f2)
+	echo "Listening on $local_address - PID/program:
+$pid_program"
+done

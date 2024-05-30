@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+0X05. Processes and signals - DevOps, Shell, Bash, Syscall and Scripting
+=======
 ## 0x05. Processes and signals - DevOps, Shell, Bash, Sycall, Scripting
 
 ## Description
@@ -26,3 +29,4 @@ Each script can be run from the terminal as follows:
 
 ## Author
 Simangaliso Vilakazi
+>>>>>>> 47c85f09f803c0d26da688080716fa5f20c43373

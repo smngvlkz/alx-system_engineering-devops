@@ -11,7 +11,9 @@ This repository contains projects for training in several system engineering and
 - `0x04-loops_conditions_and_parsing`: Loops, conditions and parsing in shell scripting.
 - `command_line_for_the_win`: Command line challenges.
 - `0x05-processes_and_signals`: Processes and signals.
+- **And more...**
 
+  
 ## Usage
 
 Each directory has a specific README file that provides more details on how to use and run each project.

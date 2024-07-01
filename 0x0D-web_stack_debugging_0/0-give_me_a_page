@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# Fixes Apache server to display "Hello Holberton"
+# This script debugs a Docker container to run Apache and return a Hello Holberton page
 
-# Install Apache if not already installed
-sudo apt-get update
-sudo apt-get install -y apache2
-
+docker pull holbertonschool/265-0
+docker run -p 8080:80 -d -it holbertonschool/265-0
+docker exec -it $(docker ps -q --filter ancestor=holbertonschool/265-0) /bin/bash <<EOF
+apt-get update
+apt-get install -y apache2
 echo "Hello Holberton" > /var/www/html/index.html
-
 service apache2 start
+EOF

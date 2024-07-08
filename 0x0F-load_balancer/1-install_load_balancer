@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Install and configure HAProxy on lb-01 server
+
+# Update packages and install HAProxy
+sudo apt-get update
+sudo apt-get install -y haproxy
+
+# Enable HAProxy to be started by init script
+sudo sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
+
+# Configure HAProxy
+cat <<EOT | sudo tee /etc/haproxy/haproxy.cfg
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+
+frontend http_front
+    bind *:80
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server web-01 35.175.104.254:80 check
+    server web-02 54.173.165.138:80 check
+EOT
+
+# Restart HAProxy service
+sudo service haproxy restart
+
+# Check if HAProxy is running
+if ! sudo service haproxy status | grep -q "active (running)"; then
+    echo "Error: HAProxy is not running. Check the configuration."
+    exit 1
+fi
+
+# Test the configuration
+echo "Testing HAProxy configuration..."
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+
+# Verify load balancing
+echo "Verifying load balancing..."
+LB_IP=$(curl -s icanhazip.com)  # Get the public IP of the current server
+
+for i in {1..4}; do
+    response=$(curl -sI "$LB_IP" | grep "X-Served-By")
+    echo "Request $i: $response"
+    sleep 1
+done
+
+echo "HAProxy installed and configured successfully. Load balancing verified."

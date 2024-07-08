@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Duplicates web-01 to web-02 and adds custom HTTP header
+
+# Update and install Nginx
+sudo apt-get update
+sudo apt-get install -y nginx rsync
+
+# Variables
+WEB01_IP="35.175.104.254"
+WEB02_IP=$(hostname -I | awk '{print $1}')
+SSH_OPTIONS="-o StrictHostKeyChecking=no"
+
+# Sync configuration from web-01 to web-02
+sudo rsync -avz -e "ssh $SSH_OPTIONS" "ubuntu@$WEB01_IP:/etc/nginx/" "/etc/nginx/"
+
+# Add custom header to Nginx configuration
+CUSTOM_HEADER="add_header X-Served-By \"$HOSTNAME\";"
+if ! sudo grep -q "X-Served-By" /etc/nginx/nginx.conf; then
+    echo "$CUSTOM_HEADER" | sudo tee -a /etc/nginx/conf.d/custom_header.conf > /dev/null
+fi
+
+# Test Nginx configuration
+sudo nginx -t
+
+# Restart Nginx
+sudo systemctl restart nginx
+
+echo "Web-02 has been configured to match Web-01 with custom HTTP header."
+echo "Custom header added: X-Served-By: $HOSTNAME"

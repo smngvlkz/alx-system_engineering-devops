@@ -1,5 +1,42 @@
 #!/usr/bin/env bash
-# configures a server to listening on port 80 of all servers active IPv4 IPs
+# Configures Nginx to listen on port 80 of all server's active IPv4 IPs
+
+sudo apt-get update
+sudo apt-get install -y nginx
+
+cat << 'EOF' | sudo tee /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+EOF
 
 sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-sudo service nginx restart
+
+if sudo nginx -t; then
+
+    sudo systemctl restart nginx
+    echo "Nginx restarted successfully."
+else
+    echo "Nginx configuration test failed. Please check the configuration file."
+    exit 1
+fi
+
+sudo systemctl enable nginx
+
+if sudo netstat -tulnp | grep :80; then
+    echo "Nginx is now configured to listen on port 80 and is running."
+else
+    echo "Nginx is not listening on port 80. Please check the configuration."
+    exit 1
+fi
+

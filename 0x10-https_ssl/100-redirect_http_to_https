@@ -1,40 +1,33 @@
 global
-    log     /dev/log local0
-    maxconn 2048
-    user    haproxy
-    group   haproxy
-    tune.ssl.default-dh-param 2048
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
 
 defaults
     log     global
     mode    http
     option  httplog
     option  dontlognull
-    retries 3
-    option  redispatch
-    timeout connect  5000
-    timeout client  10000
-    timeout server  10000
-    option  forwardfor
-    option  http-server-close
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
 
-frontend www-http
-    bind   0.0.0.0:80
-    http-request set-header X-Forwarded-Proto http
-    http-request redirect scheme https code 301 if !{ ssl_fc }
-    default_backend www-backend
+frontend http_front
+    bind *:80
+    mode http
+    redirect scheme https code 301 if !{ ssl_fc }
 
-frontend www-https
-    bind   0.0.0.0:443 ssl crt /etc/haproxy/certs/www.smngvlkz.tech.pem
-    http-request set-header X-Forwarded-Proto https
-    acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
-    use_backend letsencrypt-backend if letsencrypt-acl
-    default_backend www-backend
+frontend https_front
+    bind *:443 ssl crt /etc/haproxy/certs/www.smngvlkz.tech.pem
+    mode http
+    default_backend web-backend
 
-backend www-backend
-    balance  roundrobin
+backend web-backend
+    balance roundrobin
     server web-01 35.175.104.254:80 check
     server web-02 100.26.133.137:80 check
-
-backend letsencrypt-backend
-    server letsencrypt 127.0.0.1:54321

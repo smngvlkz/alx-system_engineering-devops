@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
-# This script debugs a Docker container to run Apache and return a Hello Holberton page
+# This script configures Apache to return a page containing "Hello Holberton"
 
-docker pull holbertonschool/265-0
-docker run -p 8080:80 -d -it holbertonschool/265-0
-docker exec -it $(docker ps -q --filter ancestor=holbertonschool/265-0) /bin/bash <<EOF
 apt-get update
 apt-get install -y apache2
+
 echo "Hello Holberton" > /var/www/html/index.html
+
 service apache2 start
-EOF

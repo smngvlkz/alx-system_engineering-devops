@@ -1,5 +1,7 @@
 0x12. Web stack debugging #2 - DevOps, SysAdmin, Scripting, Debugging
 
+![Uploading IMG_5974.jpeg…]()
+
 ## Description
 
 ALX System Engineering & DevOps curriculum.

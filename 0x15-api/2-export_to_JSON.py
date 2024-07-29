@@ -5,8 +5,8 @@ import requests
 import sys
 
 if __name__ == '__main__':
-    user_id = sys.argv[1]
-    url = 'https://jsonplaceholder.typicode.com/users/' + user_id
+    USER_ID = sys.argv[1]
+    url = 'https://jsonplaceholder.typicode.com/users/' + USER_ID
     user = requests.get(url).json()
     username = user.get('username')
     todos = requests.get(url + '/todos').json()
@@ -19,6 +19,6 @@ if __name__ == '__main__':
             "username": username
         })
 
-    json_data = {user_id: tasks}
-    with open(f'{user_id}.json', 'w') as jsonfile:
+    json_data = {USER_ID: tasks}
+    with open(f'{USER_ID}.json', 'w') as jsonfile:
         json.dump(json_data, jsonfile)

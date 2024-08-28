@@ -1,49 +1,15 @@
 #!/usr/bin/env bash
 # Configures Nginx to listen on port 80 of all active IPv4 IPs
 
-# Check if Nginx is installed, if not, install it
-if ! command -v nginx &> /dev/null
-then
-    apt-get update
-    apt-get install -y nginx
-fi
+# Stop nginx service if it's running
+service nginx stop
 
-# Ensure the sites-available directory exists
-mkdir -p /etc/nginx/sites-available
+# Configure nginx to listen on port 80
+sed -i 's/listen 8080 default_server;/listen 80 default_server;/' /etc/nginx/sites-available/default
+sed -i 's/listen \[::\]:8080 default_server;/listen \[::\]:80 default_server;/' /etc/nginx/sites-available/default
 
-# Create a new default configuration if it doesn't exist
-if [ ! -f /etc/nginx/sites-available/default ]; then
-    echo "server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-        root /var/www/html;
-        index index.html index.htm index.nginx-debian.html;
-        server_name _;
-        location / {
-            try_files \$uri \$uri/ =404;
-        }
-    }" > /etc/nginx/sites-available/default
-fi
+# Ensure the default site is enabled
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-# Ensure the sites-enabled directory exists
-mkdir -p /etc/nginx/sites-enabled
-
-# Create a symbolic link if it doesn't exist
-if [ ! -L /etc/nginx/sites-enabled/default ]; then
-    ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
-fi
-
-# Ensure Nginx is listening on port 80
-sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
-
-# Test Nginx configuration
-nginx -t
-
-# Restart Nginx
-if command -v systemctl &> /dev/null; then
-    systemctl restart nginx
-elif command -v service &> /dev/null; then
-    service nginx restart
-else
-    /etc/init.d/nginx restart
-fi
+# Start nginx service
+service nginx start

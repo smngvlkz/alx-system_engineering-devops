@@ -1,0 +1,8 @@
+./0-nginx_likes_port_80: line 5: apt-get: command not found
+./0-nginx_likes_port_80: line 6: apt-get: command not found
+cp: /etc/nginx/nginx.conf: No such file or directory
+sed: 1: "/etc/nginx/nginx.conf": extra characters at the end of n command
+sed: 1: "/etc/nginx/nginx.conf": extra characters at the end of n command
+./0-nginx_likes_port_80: line 31: /etc/nginx/sites-available/default: No such file or directory
+ln: /etc/nginx/sites-enabled/: No such file or directory
+./0-nginx_likes_port_80: line 37: nginx: command not found

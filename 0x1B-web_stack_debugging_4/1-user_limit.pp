@@ -1,5 +1,3 @@
-# 1-user_limit.pp
-
 # Ensure the holberton user exists
 user { 'holberton':
   ensure     => present,

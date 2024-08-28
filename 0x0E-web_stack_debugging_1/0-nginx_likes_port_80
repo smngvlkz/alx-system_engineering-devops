@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Configures nginx to listen on port 80 of all active IPv4 IPs
 
-# Backup the original configuration
+# Backs up the original configuration
 cp /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
 
-# Update the default configuration
+# Updates the default configuration
 sed -i 's/listen\s*[0-9]\+/listen 80/g' /etc/nginx/conf.d/default.conf
 
-# Test the configuration
+# Tests the configuration
 nginx -t
 
 # If the test is successful, reload Nginx
